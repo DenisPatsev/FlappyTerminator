@@ -57,7 +57,6 @@ public class Player : MonoBehaviour
         _score++;
         _scoreScreen.text = _startText;
         _scoreScreen.text += " " + _score.ToString();
-        Debug.Log(_score);
     }
 
     public void Restart()
