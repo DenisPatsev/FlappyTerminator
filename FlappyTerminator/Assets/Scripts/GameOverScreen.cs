@@ -6,8 +6,11 @@ public class GameOverScreen : MonoBehaviour
     [SerializeField] private Player _player;
     [SerializeField] private CanvasGroup _gameOverScreen;
 
+    private Scene _currentScene;
+
     private void Start()
     {
+        _currentScene = SceneManager.GetActiveScene();
         _gameOverScreen.gameObject.SetActive(false);
     }
 
@@ -33,6 +36,6 @@ public class GameOverScreen : MonoBehaviour
 
     public void RestartGame()
     {
-       SceneManager.LoadScene("SampleScene");
+        SceneManager.LoadScene(_currentScene.name);
     }
 }

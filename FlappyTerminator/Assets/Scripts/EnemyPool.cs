@@ -7,6 +7,7 @@ public class EnemyPool : MonoBehaviour
 {
     [SerializeField] private GameObject _container;
     [SerializeField] private float _capacity;
+    [SerializeField] private Player _target;
 
     private List<Enemy> _pool = new List<Enemy>();
 
@@ -17,6 +18,7 @@ public class EnemyPool : MonoBehaviour
             var index = Random.Range(0, _prefabs.Length);
 
             Enemy enemy = Instantiate(_prefabs[index], _container.transform.position, Quaternion.identity);
+            enemy.Initialize(_target);
             enemy.gameObject.SetActive(false);
             _pool.Add(enemy);
         }

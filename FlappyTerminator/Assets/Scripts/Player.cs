@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody2D))]
+[RequireComponent(typeof(Player))]
 
 public class Player : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class Player : MonoBehaviour
 
     private float _score;
     private Rigidbody2D _body;
+    private Player _player;
     private string _startText;
 
     public UnityAction Died;
@@ -20,6 +22,7 @@ public class Player : MonoBehaviour
     private void Start()
     {
         _score = 0;
+        _player = GetComponent<Player>();
         _body = GetComponent<Rigidbody2D>();
         _startText = _scoreScreen.text;
         _scoreScreen.text += " " + _score.ToString();
@@ -35,7 +38,7 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<PlayerBullet>(out PlayerBullet bullet) == false)
+        if (collision.gameObject.TryGetComponent(out PlayerBullet bullet) == false)
         {
             Die();
         }
@@ -50,6 +53,7 @@ public class Player : MonoBehaviour
     public void Shoot()
     {
         PlayerBullet bullet = Instantiate(_bullet, transform.position, transform.rotation);
+        bullet.Initialize(_player);
     }
 
     public void AddScore()
@@ -57,6 +61,7 @@ public class Player : MonoBehaviour
         _score++;
         _scoreScreen.text = _startText;
         _scoreScreen.text += " " + _score.ToString();
+        Debug.Log(_score);
     }
 
     public void Restart()

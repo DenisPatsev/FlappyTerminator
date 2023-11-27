@@ -6,11 +6,6 @@ public class PlayerBullet : MonoBehaviour
 
     private Player _player;
 
-    private void OnEnable()
-    {
-        _player = FindAnyObjectByType<Player>();
-    }
-
     private void Update()
     {
         var destroyPoint = Camera.main.ViewportToWorldPoint(new Vector2(1, 0.5f));
@@ -21,5 +16,10 @@ public class PlayerBullet : MonoBehaviour
         {
             Destroy(gameObject);
         }
+    }
+
+    public void Initialize(Player player)
+    {
+        _player = player;
     }
 }

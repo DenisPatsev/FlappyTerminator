@@ -8,9 +8,11 @@ public class Enemy : MonoBehaviour
     [SerializeField] private float _speed;
     [SerializeField] private Bullet _bullet;
 
+    private Player _target;
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.TryGetComponent<PlayerBullet>(out PlayerBullet bullet))
+        if (collision.gameObject.TryGetComponent(out PlayerBullet bullet))
         {
             Die();
             Destroy(collision);
@@ -31,17 +33,24 @@ public class Enemy : MonoBehaviour
     {
         while (true)
         {
-            Instantiate(_bullet, transform.position, Quaternion.identity);
-            var delay = new WaitForSeconds(_delay);
+            if (gameObject.activeSelf == true)
+            {
+                Instantiate(_bullet, transform.position, Quaternion.identity);
+                var delay = new WaitForSeconds(_delay);
 
-            yield return delay;
+                yield return delay;
+            }
         }
     }
 
     private void Die()
     {
         gameObject.SetActive(false);
+        _target.AddScore();
+    }
 
-        FindAnyObjectByType<Player>().AddScore();
+    public void Initialize(Player target)
+    {
+        _target = target;
     }
 }
